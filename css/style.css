@@ -127,6 +127,18 @@ option {
 	font-family: 'roboto', sans-serif;
 }
 
+.error {
+	border-color: tomato;
+}
+.error-message {
+	color: tomato;
+}
+span.error-message {
+	font-size: 16px;
+}
+.strike-through {
+	text-decoration-line: line-through;
+}
 /* ================================= 
   Page Styles
 ==================================== */
