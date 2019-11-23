@@ -134,10 +134,12 @@ $(document).ready(function () {
         return formatedTime;
     }
 
+    // On payment option change show appropriate content
     $("#payment").on("change", function (event) {
         selectPaymentOption();
     });
 
+    // Will show appropriate payment content on selecting particular payment option
     function selectPaymentOption() {
         let selectedPaymentOption = $("#payment").val().replace(" ", "-");
         $("#credit-card").find("span.error-message").remove();
@@ -153,6 +155,7 @@ $(document).ready(function () {
         });
     }
 
+    // Validate form after submitting form
     $("form").on("submit", function (event) {
         event.preventDefault();
         validateUserName();
@@ -166,6 +169,7 @@ $(document).ready(function () {
         }
     });
 
+    // Validate User name
     function validateUserName() {
         const name = $("#name").val().trim();
         if (name.length > 0) {
@@ -180,6 +184,7 @@ $(document).ready(function () {
         }
     }
 
+    // Validate email address
     function validateEmail() {
         const mail = $("#mail").val().trim();
         const mailRegEx = /^[^@]+@[^@.]+\.[a-z]+$/i;
@@ -199,6 +204,7 @@ $(document).ready(function () {
         }
     }
 
+    // validate activities
     function validateActivities() {
         if ($(".activities").find("input[type=checkbox]:checked").length === 0) {
             if (!$(".activities > legend").hasClass("error-message")) {
@@ -213,6 +219,7 @@ $(document).ready(function () {
         }
     }
 
+    // validate credit card number
     function validateCreditCardNumber() {
         const creditCardNumber = $("#cc-num").val().trim();
         let creditCardNumberRegEx = /^(\d){13,16}$/;
@@ -232,6 +239,7 @@ $(document).ready(function () {
         }
     }
 
+    // validate zip
     function validateZip() {
         const zip = $("#zip").val().trim();
         let zipRegEx = /^(\d){5}$/;
@@ -251,6 +259,7 @@ $(document).ready(function () {
         }
     }
 
+    // validate cvv
     function validateCVV() {
         const cvv = $("#cvv").val().trim();
         let cvvRegEx = /^(\d){3}$/;
