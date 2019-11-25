@@ -11,6 +11,9 @@ $(document).ready(function () {
 
     selectPaymentOption();
 
+    // Set by default payment option to be credit card
+    $("#payment").val("credit card");
+
     $("#name").on('keyup', validateUserName);
     $("#mail").on('keyup', validateEmail);
     $("#cc-num").on('keyup', validateCreditCardNumber);
@@ -157,15 +160,17 @@ $(document).ready(function () {
 
     // Validate form after submitting form
     $("form").on("submit", function (event) {
-        event.preventDefault();
-        validateUserName();
-        validateEmail();
-        validateActivities();
+        let isFormValid = validateUserName();
+        isFormValid = validateEmail() && isFormValid;
+        isFormValid = validateActivities() && isFormValid;
         if ($("#payment").val() === "credit card"
             || $("#payment").val() === "select method") {
-            validateCreditCardNumber();
-            validateZip();
-            validateCVV();
+            isFormValid = validateCreditCardNumber() && isFormValid;
+            isFormValid = validateZip() && isFormValid;
+            isFormValid = validateCVV() && isFormValid;
+        }
+        if (!isFormValid) {
+            event.preventDefault();
         }
     });
 
@@ -175,6 +180,7 @@ $(document).ready(function () {
         if (name.length > 0) {
             $("#name").removeClass("error");
             $("label[for=name]").find(".error-message").remove();
+            return true;
         } else {
             if (!$("#name").hasClass("error")) {
                 $("#name").addClass("error");
@@ -182,6 +188,7 @@ $(document).ready(function () {
                 $("label[for=name]").append(errorMessage);
             }
         }
+        return false;
     }
 
     // Validate email address
@@ -191,6 +198,7 @@ $(document).ready(function () {
         if (mailRegEx.test(mail)) {
             $("#mail").removeClass("error");
             $("label[for=mail]").find(".error-message").remove();
+            return true;
         } else {
             const error = (mail.length === 0)
                 ? "Please enter email address"
@@ -202,6 +210,7 @@ $(document).ready(function () {
             }
             $("label[for=mail]").find(".error-message").text(`[${error}]`);
         }
+        return false;
     }
 
     // validate activities
@@ -216,7 +225,9 @@ $(document).ready(function () {
         else {
             $(".activities > legend").removeClass("error-message");
             $(".activities > legend").find(".error-message").remove();
+            return true;
         }
+        return false;
     }
 
     // validate credit card number
@@ -226,6 +237,7 @@ $(document).ready(function () {
         if (creditCardNumberRegEx.test(creditCardNumber)) {
             $("label[for=cc-num]").find(".error-message").remove();
             $("#cc-num").removeClass("error");
+            return true;
         } else {
             const error = (creditCardNumber.length === 0)
                 ? "Please enter a credit card number"
@@ -237,6 +249,7 @@ $(document).ready(function () {
             }
             $("label[for=cc-num]").find(".error-message").text(`[${error}]`);
         }
+        return false;
     }
 
     // validate zip
@@ -246,6 +259,7 @@ $(document).ready(function () {
         if (zipRegEx.test(zip)) {
             $("label[for=zip]").find(".error-message").remove();
             $("#zip").removeClass("error");
+            return true;
         } else {
             const error = (zip.length === 0)
                 ? "Please enter zip"
@@ -257,6 +271,7 @@ $(document).ready(function () {
             }
             $("label[for=zip]").find(".error-message").text(`[${error}]`);
         }
+        return false;
     }
 
     // validate cvv
@@ -266,6 +281,7 @@ $(document).ready(function () {
         if (cvvRegEx.test(cvv)) {
             $("label[for=cvv]").find(".error-message").remove();
             $("#cvv").removeClass("error");
+            return true;
         } else {
             const error = (cvv.length === 0)
                 ? "Please enter cvv"
@@ -277,5 +293,6 @@ $(document).ready(function () {
             }
             $("label[for=cvv]").find(".error-message").text(`[${error}]`);
         }
+        return false;
     }
 });
